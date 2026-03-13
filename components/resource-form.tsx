@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { Resource } from '@/types/resource'
+import { Database } from '@/types/supabase'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -76,16 +77,16 @@ export function ResourceForm({ initialData, userId }: ResourceFormProps) {
 
       if (initialData) {
         // Update
-        const { error: updateError } = await supabase
-          .from('resources')
+        const { error: updateError } = await (supabase
+          .from('resources') as any)
           .update(resourceData)
           .eq('id', initialData.id)
           
         if (updateError) throw updateError
       } else {
         // Insert
-        const { error: insertError } = await supabase
-          .from('resources')
+        const { error: insertError } = await (supabase
+          .from('resources') as any)
           .insert([resourceData])
           
         if (insertError) throw insertError
