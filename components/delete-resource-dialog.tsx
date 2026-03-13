@@ -61,11 +61,13 @@ export function DeleteResourceDialog({ resource }: { resource: Resource }) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" className="flex items-center gap-1">
-          <Trash2 className="w-4 h-4" /> Delete
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={
+          <Button variant="destructive" size="sm" className="flex items-center gap-1">
+            <Trash2 className="w-4 h-4" /> Delete
+          </Button>
+        }
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
