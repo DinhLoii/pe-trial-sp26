@@ -1,11 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { ResourceForm } from '@/components/resource-form'
 import { redirect } from 'next/navigation'
+import { Resource } from '@/types/resource'
 
 interface EditResourceProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function EditResourcePage({ params }: EditResourceProps) {
@@ -17,14 +18,15 @@ export default async function EditResourcePage({ params }: EditResourceProps) {
     redirect('/login')
   }
 
-  // Ensure params are awaited if Next.js version requires it but for standard app router params are accessible directly or as an awaited promise in later versions. Next 15+ needs await params.
   const resolvedParams = await params
 
-  const { data: resource, error } = await supabase
+  const { data, error } = await supabase
     .from('resources')
     .select('*')
     .eq('id', resolvedParams.id)
     .single()
+
+  const resource = data as Resource | null
 
   if (error || !resource) {
     return (
@@ -53,3 +55,4 @@ export default async function EditResourcePage({ params }: EditResourceProps) {
     </div>
   )
 }
+
